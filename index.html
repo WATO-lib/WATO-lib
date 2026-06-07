@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WATO lib — Événementiel B2B</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #D4AF37;
+    --gold-deep: #B8860B;
+    --gold-dark: #7B6000;
+    --cream: #FAF7F2;
+    --dark: #1C1C1C;
+    --muted: #6B6458;
+    --border: #e0d8c8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Montserrat', sans-serif;
+    color: var(--dark);
+    line-height: 1.7;
+  }
+
+  .serif { font-family: 'Cormorant Garamond', serif; }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    background: var(--cream);
+    border-bottom: 0.5px solid var(--border);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold-deep);
+    letter-spacing: 1px;
+  }
+  .nav-cta {
+    background: var(--gold-deep);
+    color: var(--cream);
+    padding: 8px 20px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-dark); }
+
+  /* HERO */
+  .hero {
+    padding: 6rem 2rem 5rem;
+    max-width: 860px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    border: 0.5px solid var(--gold);
+    padding: 5px 14px;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 6vw, 58px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--dark);
+    margin-bottom: 1.5rem;
+  }
+  h1 span { color: var(--gold-deep); }
+  .hero-sub {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.8;
+  }
+  .btn-primary {
+    display: inline-block;
+    background: var(--gold-deep);
+    color: var(--cream);
+    padding: 14px 36px;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.1s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--gold-dark); transform: translateY(-1px); }
+  .gold-line {
+    width: 48px;
+    height: 2px;
+    background: var(--gold);
+    margin: 1.5rem auto 0;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 5rem 2rem;
+    max-width: 860px;
+    margin: 0 auto;
+    border-top: 0.5px solid var(--border);
+  }
+  .section-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    margin-bottom: 1rem;
+  }
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 4vw, 36px);
+    font-weight: 600;
+    color: var(--dark);
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+  .accent-line {
+    width: 40px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 2rem;
+  }
+  .section-intro {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 560px;
+    margin-bottom: 2.5rem;
+  }
+
+  /* CARDS */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .card {
+    background: #fff;
+    border: 0.5px solid var(--gold);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(180,134,11,0.10); }
+  .card-icon {
+    font-size: 22px;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+  }
+  .card-text {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* PROOF */
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .proof-item {
+    text-align: center;
+    background: #fff;
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem 1rem;
+  }
+  .proof-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--gold-deep);
+    line-height: 1;
+  }
+  .proof-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-weight: 400;
+  }
+
+  /* CTA BLOCK */
+  .cta-block {
+    background: var(--dark);
+    border-radius: 12px;
+    padding: 4rem 2rem;
+    text-align: center;
+    margin: 4rem auto;
+    max-width: 860px;
+    border: 0.5px solid var(--gold);
+  }
+  .cta-block h2 {
+    color: var(--gold);
+    font-size: clamp(28px, 4vw, 42px);
+    margin-bottom: 1rem;
+  }
+  .cta-block p {
+    font-size: 14px;
+    font-weight: 300;
+    color: #FAF7F2;
+    margin-bottom: 2rem;
+    line-height: 1.8;
+  }
+  .reassurance {
+    font-size: 11px;
+    color: #888;
+    margin-top: 1rem;
+    letter-spacing: 0.5px;
+  }
+
+  /* CONTACT FORM */
+  .form-group {
+    margin-bottom: 1rem;
+    text-align: left;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #888;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    background: #2A2A2A;
+    border: 0.5px solid #D4AF37;
+    border-radius: 4px;
+    padding: 12px 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: #FAF7F2;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus { border-color: #D4AF37; box-shadow: 0 0 0 2px rgba(212,175,55,0.15); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 0.5px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--cream);
+  }
+  footer span { color: var(--gold-deep); font-weight: 600; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero > * {
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero > *:nth-child(2) { animation-delay: 0.25s; }
+  .hero > *:nth-child(3) { animation-delay: 0.4s; }
+  .hero > *:nth-child(4) { animation-delay: 0.55s; }
+  .hero > *:nth-child(5) { animation-delay: 0.7s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    nav { padding: 1rem; }
+    .hero { padding: 4rem 1.5rem 3rem; }
+    section { padding: 3rem 1.5rem; }
+    .proof-grid { grid-template-columns: 1fr; }
+    .cta-block { padding: 3rem 1.5rem; margin: 2rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">WATO lib</div>
+  <a href="#contact" class="nav-cta">Nous contacter</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="tag">Événementiel B2B</div>
+  <h1 class="serif">Votre événement mérite<br><span>les meilleurs partenaires.</span></h1>
+  <p class="hero-sub">WATO lib met son réseau de prestataires événementiels sélectionnés au service de vos projets d'entreprise — séminaires, soirées, conférences, teambuilding.</p>
+  <a href="#contact" class="btn-primary">Parlons de votre projet</a>
+  <div class="gold-line"></div>
+</div>
+
+<!-- CE QUE NOUS FAISONS -->
+<section>
+  <div class="section-tag">Ce que nous faisons</div>
+  <h2 class="serif">Un réseau. Une mise en relation.<br>Zéro prise de tête.</h2>
+  <div class="accent-line"></div>
+  <p class="section-intro">Vous avez un événement à organiser, nous avons l'agence qu'il vous faut. Simple, rapide, efficace.</p>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">◈</div>
+      <div class="card-title">Mise en relation sur-mesure</div>
+      <p class="card-text">Vous décrivez votre projet, nous identifions l'agence événementielle qui correspond exactement à vos besoins et à votre budget.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">◈</div>
+      <div class="card-title">Des partenaires triés sur le volet</div>
+      <p class="card-text">Chaque agence de notre réseau a été sélectionnée pour sa fiabilité, sa créativité et sa capacité à délivrer des événements B2B d'exception.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">◈</div>
+      <div class="card-title">Réponse rapide, résultat garanti</div>
+      <p class="card-text">Pas de démarchage, pas d'incertitude — vous êtes mis en relation avec le bon interlocuteur dès le premier échange.</p>
+    </div>
+  </div>
+</section>
+
+<!-- POURQUOI NOUS -->
+<section>
+  <div class="section-tag">Pourquoi WATO lib</div>
+  <h2 class="serif">Ils nous font confiance.</h2>
+  <div class="accent-line"></div>
+  <p class="section-intro">Entreprises, directions marketing, DRH — nous accompagnons les décideurs qui ne veulent pas perdre de temps à chercher le bon prestataire.</p>
+  <div class="proof-grid">
+    <div class="proof-item">
+      <div class="proof-num">100%</div>
+      <div class="proof-label">B2B</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-num">48h</div>
+      <div class="proof-label">Mise en relation</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-num">0€</div>
+      <div class="proof-label">Pour vous</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA + CONTACT -->
+<div class="cta-block" id="contact">
+  <h2 class="serif">Vous avez un projet ?</h2>
+  <p>Décrivez-nous votre événement en quelques mots.<br>Nous revenons vers vous sous 24h avec la bonne agence.</p>
+  <div class="form-group">
+    <label>Votre nom</label>
+    <input type="text" placeholder="Prénom Nom">
+  </div>
+  <div class="form-group">
+    <label>Votre email</label>
+    <input type="email" placeholder="vous@entreprise.com">
+  </div>
+  <div class="form-group">
+    <label>Votre projet</label>
+    <textarea placeholder="Séminaire, soirée, conférence... décrivez votre événement en quelques mots."></textarea>
+  </div>
+  <div class="form-group" style="text-align:center;">
+    <button class="btn-primary" style="width:100%;max-width:480px;">Envoyer ma demande</button>
+  </div>
+  <p class="reassurance">Gratuit · Sans engagement · Réponse sous 24h</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <span>WATO lib</span> — Tous droits réservés</p>
+</footer>
+
+</body>
+</html>
